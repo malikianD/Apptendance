@@ -1,0 +1,10 @@
+body {
+    background-color: lightgrey;
+}
+
+h1 , h2{
+    font-family: signpainter;
+    font-size: 60px;
+    color: #2E77CD;
+    
+}
