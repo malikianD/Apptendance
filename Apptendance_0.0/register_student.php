@@ -1,19 +1,7 @@
 <?php
-    require 'database/dbconnect.db.php';
     session_start();
-?>
-<!DOCTYPE html>
-    <html lang = "en">
-        <head>
-        
-            <title>Apptendance Student</title>
-            <meta charset="utf-8">
-            <link rel="stylesheet" type = "text/css" href = "css/styles.css">
-            
-        </head>
-        <body>
-            
-            <?php
+    require 'database/dbconnect.db.php';
+    
             
                 // define variables 
             $first_name = "";
@@ -29,19 +17,27 @@
             $userN_error = "";
             $psw_error = "";
             
+            $count = 0;
+            
             if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 
                 // check if the first name field is empty and that it contains 
                 // alphabetical characters
                 if (empty($_POST["f_name"])) {
                     $first_name_error = "First name required";
+                    
                 }
                 else
                 {
                     $first_name = test_input($_POST["f_name"]);
                     
+                    
                     if (!preg_match("/^[a-zA-Z]*$/", $first_name)) {
                         $first_name_error = "Only letters are allowed";
+                    }
+                    else 
+                    {
+                        $count = 1;
                     }
                 } 
                 
@@ -57,6 +53,10 @@
                     if (!preg_match("/^[a-zA-Z]*$/", $last_name)) {
                         $last_name_error = "Only letters are allowed";
                     }
+                    else
+                    {
+                        $count = 2;
+                    }
                 }
                 
                 // check if the email address follows the correct guidelines
@@ -70,6 +70,10 @@
                     if (!filter_var($email_add, FILTER_VALIDATE_EMAIL)) {
                         $email_add_error = "Invalid email format";
                     }
+                    else
+                    {
+                        $count = 3;
+                    }
                 }
                 
                 // check the username 
@@ -79,9 +83,28 @@
                 else
                 {
                     $userN = test_input($_POST["user_name"]);
+                    $count = 4;
                 }
                 
+                // if all the error checks pass then the count will 
+                // equal 4 and the new user will be created
+                // Inserted into the database, and logged in 
+                // the session
+                if ($count == 4){
+                $sql = "INSERT INTO student (firstname, lastname, email, username, password) 
+                VALUES ('$first_name', '$last_name', '$email_add', '$userN', '$psw')";
+                $conn->exec($sql);
+                    
+                    
+                    $_SESSION['username'] = $userN;
+                    
+                    header("Location: user_account_student.php");
+                    
+                    
+                }                        
             }
+               //ob_flush();
+            
             
             function test_input($data) {
                 $data = trim($data);
@@ -89,7 +112,19 @@
                 $data = htmlspecialchars($data);
                 return $data;
             }
-            ?>    
+            ?> 
+<!DOCTYPE html>
+    <html lang = "en">
+        <head>
+        
+            <title>Apptendance Student</title>
+            <meta charset="utf-8">
+            <link rel="stylesheet" type = "text/css" href = "css/styles.css">
+            
+        </head>
+        <body>
+            
+               
             
             <h2>Create Student Account</h2>
             <div>
@@ -113,20 +148,7 @@
                                       
                 </form>
                 
-                <?php 
-                    echo "<h2>Input<h2>";
-                    echo "<br>";
-                    echo $first_name;
-                echo "<br>";
-                    echo $last_name;
-                echo "<br>";
-                    echo $email_add;
-                echo "<br>";
-                    echo $userN;
-                echo "<br>";
-                    echo $psw;
                 
-                ?>
             
             
             </div>

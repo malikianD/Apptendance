@@ -1,6 +1,6 @@
 <?php
     require 'database/dbconnect.db.php';
-    session_start();
+    //session_start();
 ?>
 <!DOCTYPE html>
     <html lang = "en">
@@ -33,7 +33,7 @@
                  </form>
                 
                 <!-- This form holds the code to go to the register.php page-->
-                <form action = "register.php" method = "post">
+                <form action = "register_student_or_teacher.php" method = "post">
                     <button type = "submit" name = "register_button">Register</button>
                 </form>
             

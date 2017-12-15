@@ -1,6 +1,6 @@
 <?php
-    require 'database/dbconnect.db.php';
     session_start();
+    require 'database/dbconnect.db.php';    
 ?>
 <!DOCTYPE html>
     <html lang = "en">
@@ -15,7 +15,29 @@
             
             <div>
             
-                <h2>Courses</h2>
+                <h2>Courses <?php echo $_SESSION['username'] . ""; ?></h2>
+                
+                <?php
+                
+                $result = $conn->prepare("SELECT crn, coursename FROM courses");
+                $result->execute();
+
+                while ($row = $result->fetch(PDO::FETCH_ASSOC))
+                {
+                $crn = $row['crn'];
+                $coursename = $row['coursename'];
+        
+                //echo $crn . " " . $coursename ."<br>"; 
+                
+                //echo '<input type = "checkbox" value = "' . $coursename . '" />' . $coursename .  "<br>";
+                    
+                  echo '<button type="button" name = " '.$coursename.'">' . $coursename . '</button><br>';
+                }
+                
+                
+                ?>
+                
+                
                 
                 <!--This is where the list of courses needs to be populated 
                     based on the user that is logged in, for now it is just 
