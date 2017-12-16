@@ -1,6 +1,6 @@
 <?php
-    require 'database/dbconnect.db.php';
     session_start();
+    require 'database/dbconnect.db.php';    
 ?>
 <!DOCTYPE html>
     <html lang = "en">
@@ -15,7 +15,34 @@
             
             <div>
             
-                <h2>Courses</h2>
+                <h2>Courses <?php echo $_SESSION['username'] . ""; ?></h2>
+                
+                <?php
+                
+                $family_name = $_SESSION['last'];
+                
+                //$result = $conn->prepare("SELECT crn, coursename FROM courses");
+                
+                // this will grab the courses taught teacher via last name of user
+                $result = $conn->prepare("SELECT * FROM courses WHERE teacher='$family_name'");
+                $result->execute();
+
+                while ($row = $result->fetch(PDO::FETCH_ASSOC))
+                {
+                $crn = $row['crn'];
+                $coursename = $row['coursename'];
+        
+                //echo $crn . " " . $coursename ."<br>"; 
+                
+                //echo '<input type = "checkbox" value = "' . $coursename . '" />' . $coursename .  "<br>";
+                    
+                  echo '<button type="button" name = " '.$coursename.'">' . $coursename . '</button><br>';
+                }
+                
+                
+                ?>
+                
+                
                 
                 <!--This is where the list of courses needs to be populated 
                     based on the user that is logged in, for now it is just 
@@ -32,6 +59,7 @@
                 
                 
             </div>
+            <p>Name <?php echo $family_name; ?></p>
         
         
         </body>

@@ -1,28 +1,23 @@
 <?php
     session_start();
     require 'database/dbconnect.db.php';
-    
 ?>
 <!DOCTYPE html>
     <html lang = "en">
         <head>
         
-            <title>Apptendance User Page</title>
+            <title>Apptendance User Teacher</title>
             <meta charset = "utf-8">
-            <link rel="stylesheet" type = "text/css" href = "css/styles.css">
-            
+            <link rel="stylesheet" type="text/css" href = "css/styles.css">
         </head>
-        
         <body>
             
-            <div>
-                    <h2>Hello 
-                <?php
-                    //$_SESSION['username'] = $_POST["username"];
-                    echo   $_SESSION['username'] . "";
-                        ?></h2>
+            <h2>Teacher User <?php echo $_SESSION['username'] . ""?>
+                </h2>
             
-            
+            <!-- This will display the users first and last name -->
+            <p><?php 
+                    echo $_SESSION['first'] . " " . $_SESSION['last']?></p>
             
             <!--This button takes the user to their courese -->
             <form action = "courses.php" method = "post">
@@ -33,8 +28,6 @@
             <form action = "forum.php" method = "post">
                 <button type = "submit" name = "button_to_forum">Forum</button>
             </form>
-                
-            </div>
         
         </body>
 </html>

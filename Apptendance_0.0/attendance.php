@@ -14,6 +14,23 @@
             
             <h2>Attendance</h2>
             
+            <?php
+                
+                $result = $conn->prepare("SELECT firstname, lastname FROM student");
+                $result->execute();
+            
+                while ($row = $result->fetch(PDO::FETCH_ASSOC))
+                {
+                    $f_name = $row['firstname'];
+                    $l_name = $row['lastname'];
+                    
+                    
+                    echo '<input type = "checkbox" value = "' . $l_name . '" />' . $l_name . ", " . $f_name .  "<br>";
+                    
+                }
+            
+            ?>
+            
             <!--Need to generate a secret key with a one minute timer
                 for the students to enter that they are in class-->
         
